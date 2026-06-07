@@ -333,105 +333,320 @@
 
     .btn-enter:active { transform: translateY(0); }
 
-    /* ── Password Screen ── */
+    /* ── Password Screen (Lockscreen) ── */
     #password-screen .section-bg {
-      background-image: url('assets/backgrounds/town-gate.jpg');
+      background-image: url('assets/backgrounds/bg-towngate.jpg');
     }
 
     #password-screen .section-bg::after {
-      background: rgba(40, 25, 15, 0.55);
+      background: rgba(0, 0, 0, 0.45);
     }
 
-    .notice-board {
-      background: linear-gradient(160deg, #7a5c3a 0%, #5c4228 100%);
-      border: 5px solid #3d2815;
-      border-radius: 6px;
-      padding: 0.5rem;
-      max-width: 440px;
+    #password-screen .section-content {
+      padding: 1.25rem 1rem 2rem;
+      justify-content: space-between;
+      overflow-y: auto;
+    }
+
+    #password-screen .petals-container {
+      z-index: 2;
+    }
+
+    body.lockscreen-active .bubu-companion {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .lockscreen-flash {
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 200, 100, 0.3);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 25;
+    }
+
+    .lockscreen-flash.play {
+      animation: lockscreenFlash 0.5s ease forwards;
+    }
+
+    @keyframes lockscreenFlash {
+      0% { opacity: 0; }
+      40% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    .lockscreen-content {
+      position: relative;
+      z-index: 4;
       width: 100%;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-    }
-
-    .notice-board-inner {
-      background: #f5ead8;
-      border: 2px solid #c4a882;
-      padding: 2rem 1.75rem;
-      text-align: center;
-    }
-
-    .notice-board h2 {
-      font-family: var(--font-heading);
-      font-size: 1.75rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .notice-board .hint {
-      font-size: 0.95rem;
-      color: #6b5344;
-      margin-bottom: 1.5rem;
-      font-style: italic;
-    }
-
-    .password-form {
+      max-width: 380px;
+      margin: 0 auto;
+      min-height: min(100%, 100dvh);
       display: flex;
       flex-direction: column;
-      gap: 1rem;
       align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      padding: 0.5rem 0 1rem;
     }
 
-    .password-input {
-      font-family: var(--font-hand);
-      font-size: 1.35rem;
-      width: 100%;
-      max-width: 260px;
-      padding: 0.75rem 1rem;
-      border: none;
-      border-bottom: 2px dashed var(--brown);
-      background: rgba(255, 255, 255, 0.6);
+    .lockscreen-top {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       text-align: center;
+      width: 100%;
+      padding-top: 0.5rem;
+    }
+
+    .lockscreen-polaroid {
+      width: 200px;
+      background: #fff;
+      padding: 10px 10px 18px;
+      transform: rotate(-2deg);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.38);
+      margin-bottom: 1.25rem;
+    }
+
+    .lockscreen-polaroid-photo-wrap {
+      position: relative;
+      width: 180px;
+      height: 170px;
+      overflow: hidden;
+      background: #f4c4c4;
+    }
+
+    .lockscreen-polaroid-photo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .lockscreen-polaroid-photo-wrap img.is-missing {
+      display: none;
+    }
+
+    .lockscreen-photo-placeholder {
+      display: none;
+      position: absolute;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.25rem;
+      background: #f4c4c4;
+    }
+
+    .lockscreen-polaroid-photo-wrap.show-placeholder .lockscreen-photo-placeholder {
+      display: flex;
+    }
+
+    .lockscreen-polaroid-caption {
+      font-family: var(--font-hand);
+      font-size: 1.05rem;
       color: var(--brown);
-      outline: none;
-      transition: background 0.2s;
+      text-align: center;
+      margin-top: 0.65rem;
+      line-height: 1;
     }
 
-    .password-input:focus {
-      background: rgba(255, 255, 255, 0.9);
+    .lockscreen-clock {
+      font-family: var(--font-heading);
+      font-size: clamp(2.8rem, 11vw, 3.75rem);
+      font-weight: 500;
+      color: #fff;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
     }
 
-    .password-input::placeholder {
-      color: rgba(107, 76, 59, 0.4);
+    .lockscreen-date {
       font-family: var(--font-body);
-      font-size: 0.9rem;
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
+      color: rgba(255, 255, 255, 0.72);
+      margin-top: 0.35rem;
+      text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
     }
 
-    .btn-submit {
-      font-family: var(--font-body);
-      font-weight: 700;
-      font-size: 1rem;
-      padding: 0.7rem 2rem;
-      border: 2px solid var(--brown);
-      border-radius: 4px;
-      background: var(--sage);
-      color: var(--brown);
-      cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
+    .lockscreen-lock-icon {
+      font-size: 1.35rem;
+      margin-top: 0.85rem;
+      line-height: 1;
+      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
+      animation: lockIconPulse 2.8s ease-in-out infinite;
     }
 
-    .btn-submit:hover {
-      background: #a8b998;
-      transform: translateY(-1px);
+    .lockscreen-lock-icon.unlocked {
+      animation: lockIconOpen 0.6s ease forwards;
     }
 
-    .password-message {
-      min-height: 1.5rem;
-      margin-top: 1rem;
+    @keyframes lockIconPulse {
+      0%, 100% { opacity: 0.72; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.08); }
+    }
+
+    @keyframes lockIconOpen {
+      0% { transform: scale(1) rotate(0deg); opacity: 1; }
+      50% { transform: scale(1.2) rotate(-8deg); opacity: 1; }
+      100% { transform: scale(1.1) rotate(0deg); opacity: 1; }
+    }
+
+    .lockscreen-unlock-hint {
+      font-family: var(--font-hand);
       font-size: 0.95rem;
-      font-weight: 600;
-      color: #8b3a3a;
+      font-style: italic;
+      color: rgba(255, 255, 255, 0.88);
+      margin-top: 0.45rem;
+      text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
     }
 
-    .password-message.success {
-      color: #3a6b4a;
+    .lockscreen-bottom {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.85rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .lockscreen-dots {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      min-height: 20px;
+    }
+
+    .lockscreen-dots.shake {
+      animation: lockscreenDotShake 0.45s ease;
+    }
+
+    @keyframes lockscreenDotShake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-7px); }
+      40% { transform: translateX(7px); }
+      60% { transform: translateX(-5px); }
+      80% { transform: translateX(5px); }
+    }
+
+    .lockscreen-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.65);
+      background: transparent;
+      transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .lockscreen-dot.filled {
+      background: #ff9eb5;
+      border-color: #ff9eb5;
+    }
+
+    .lockscreen-dots.error .lockscreen-dot {
+      background: #ff6b7a;
+      border-color: #ff6b7a;
+    }
+
+    .lockscreen-dots.success .lockscreen-dot {
+      background: #ff9eb5;
+      border-color: #ff9eb5;
+      box-shadow: 0 0 10px rgba(255, 158, 181, 0.85);
+    }
+
+    .lockscreen-pin-msg {
+      min-height: 1.25rem;
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-style: italic;
+      color: rgba(255, 255, 255, 0.9);
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .lockscreen-pin-msg.visible {
+      opacity: 1;
+    }
+
+    .lockscreen-keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 64px);
+      gap: 14px;
+      justify-content: center;
+    }
+
+    .lockscreen-key {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: #fff;
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.1s ease, background 0.15s ease;
+      line-height: 1;
+      padding: 0;
+    }
+
+    .lockscreen-key:hover {
+      background: rgba(255, 255, 255, 0.24);
+    }
+
+    .lockscreen-key:active,
+    .lockscreen-key.pressed {
+      transform: scale(0.92);
+      background: rgba(255, 255, 255, 0.32);
+    }
+
+    .lockscreen-key-action {
+      font-size: 1.05rem;
+    }
+
+    @media (max-width: 768px) {
+      .lockscreen-polaroid {
+        width: min(200px, 52vw);
+      }
+
+      .lockscreen-polaroid-photo-wrap {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 180 / 170;
+      }
+
+      .lockscreen-keypad {
+        grid-template-columns: repeat(3, min(64px, 18vw));
+        gap: min(14px, 3.5vw);
+      }
+
+      .lockscreen-key {
+        width: min(64px, 18vw);
+        height: min(64px, 18vw);
+        font-size: clamp(1rem, 4.5vw, 1.2rem);
+      }
+
+      .lockscreen-content {
+        justify-content: flex-start;
+        gap: 1.75rem;
+        padding-bottom: 2rem;
+      }
+
+      .lockscreen-bottom {
+        margin-top: auto;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .lockscreen-lock-icon { animation: none; opacity: 0.85; }
+      .lockscreen-flash.play { animation: none; opacity: 0; }
     }
 
     /* ── Town Map ── */
@@ -447,19 +662,20 @@
 
     #town-map .section-content {
       padding: 0;
-      overflow: hidden;
+      overflow-y: auto;
       justify-content: flex-start;
     }
 
     .map-header {
-      position: absolute;
+      position: sticky;
       top: 0;
       left: 0;
       right: 0;
       z-index: 20;
       text-align: center;
-      padding: 1.25rem 1rem 0.75rem;
+      padding: 1.25rem 1rem 0.85rem;
       pointer-events: none;
+      background: linear-gradient(to bottom, rgba(250, 246, 240, 0.94) 75%, transparent);
     }
 
     .map-header h2 {
@@ -481,18 +697,25 @@
     .town-map-scene {
       position: relative;
       width: 100%;
-      height: 100%;
-      min-height: 100vh;
-      min-height: 100dvh;
+      max-width: 560px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(128px, 1fr));
+      gap: 0.85rem;
+      align-content: start;
+      padding: 0.5rem 1rem 5.5rem;
+      min-height: auto;
     }
 
     .location-card {
-      position: absolute;
+      position: relative;
+      left: auto;
+      top: auto;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 0.25rem;
-      width: clamp(118px, 16vw, 150px);
+      width: 100%;
       padding: 0.75rem 0.65rem 0.85rem;
       border: 2px solid var(--brown);
       border-radius: 14px;
@@ -501,13 +724,13 @@
       font-family: var(--font-body);
       color: var(--brown);
       box-shadow: 0 6px 20px rgba(107, 76, 59, 0.22);
-      transform: translate(-50%, -50%);
+      transform: none;
       transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
       z-index: 10;
     }
 
     .location-card:hover {
-      transform: translate(-50%, calc(-50% - 4px));
+      transform: translateY(-4px);
       border-color: var(--lantern);
       box-shadow:
         0 10px 28px rgba(107, 76, 59, 0.28),
@@ -541,14 +764,20 @@
       font-style: italic;
     }
 
-    /* Signboard positions on bg-townmap.jpg */
-    .loc-final       { left: 50%;  top: 16%; }
-    .loc-bakery      { left: 20%;  top: 24%; }
-    .loc-observatory { left: 80%;  top: 24%; }
-    .loc-cat-alley   { left: 18%;  top: 50%; }
-    .loc-train       { left: 82%;  top: 50%; }
-    .loc-arcade      { left: 34%;  top: 78%; }
-    .loc-photo       { left: 66%;  top: 78%; }
+    /* Town map card order */
+    .loc-final       { grid-column: 1 / -1; justify-self: center; width: min(100%, 210px); order: 1; }
+    .loc-bakery      { order: 2; }
+    .loc-observatory { order: 3; }
+    .loc-cat-alley   { order: 4; }
+    .loc-train       { order: 5; }
+    .loc-phool       { order: 6; }
+    .loc-arcade      { order: 7; }
+    .loc-photo       { order: 8; }
+
+    .loc-phool .location-name {
+      font-size: clamp(0.68rem, 1.6vw, 0.78rem);
+      line-height: 1.15;
+    }
 
     /* ── Section stubs (future builds) ── */
     .section-stub .section-content {
@@ -567,6 +796,568 @@
     }
 
     #birthday-bakery .section-bg { background-image: none; }
+
+    /* ── Phool for my Fool ── */
+    #phool-fool .section-bg { background-image: none; }
+    #phool-fool .section-bg::after { background: rgba(255, 200, 150, 0.15); }
+
+    #phool-fool .section-content {
+      padding: 1rem 1rem 5rem;
+      overflow-y: auto;
+      justify-content: flex-start;
+    }
+
+    .phool-layout {
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .phool-bubu-header {
+      width: min(120px, 28vw);
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 12px rgba(107, 76, 59, 0.2));
+    }
+
+    .phool-header {
+      text-align: center;
+      max-width: 520px;
+      background: rgba(253, 246, 236, 0.72);
+      padding: 0.85rem 1.1rem;
+      border-radius: 14px;
+      border: 1px solid rgba(212, 169, 106, 0.35);
+      box-shadow: 0 4px 18px rgba(107, 76, 59, 0.08);
+    }
+
+    .phool-header h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(1.65rem, 4.5vw, 2.35rem);
+      color: var(--brown);
+      line-height: 1.2;
+      margin-bottom: 0.35rem;
+      text-shadow: 0 1px 8px rgba(253, 246, 236, 0.9);
+    }
+
+    .phool-subtitle {
+      font-family: var(--font-body);
+      font-size: clamp(0.88rem, 2.2vw, 1rem);
+      font-style: italic;
+      color: rgba(107, 76, 59, 0.68);
+      line-height: 1.45;
+    }
+
+    .phool-step {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .phool-step[hidden] { display: none !important; }
+
+    .phool-step-title {
+      font-family: var(--font-heading);
+      font-size: clamp(1.15rem, 3vw, 1.45rem);
+      color: var(--brown);
+      text-align: center;
+      line-height: 1.35;
+      max-width: 420px;
+    }
+
+    .phool-holder-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.25rem;
+      width: 100%;
+      max-width: 720px;
+    }
+
+    .phool-holder-card {
+      position: relative;
+      flex: 1 1 280px;
+      max-width: 340px;
+      background: #fdf6ec;
+      border: 2px solid #d4a96a;
+      border-radius: 20px;
+      padding: 1rem 1rem 1.25rem;
+      box-shadow: 0 8px 24px rgba(107, 76, 59, 0.12);
+      cursor: pointer;
+      transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+      text-align: center;
+    }
+
+    .phool-holder-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(107, 76, 59, 0.16);
+    }
+
+    .phool-holder-card.selected {
+      border-color: #ff9eb5;
+      background: #fff0f3;
+      box-shadow: 0 0 0 2px rgba(255, 158, 181, 0.35), 0 12px 28px rgba(255, 158, 181, 0.18);
+    }
+
+    .phool-holder-check {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.85rem;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #ff9eb5;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    .phool-holder-card.selected .phool-holder-check { display: flex; }
+
+    .phool-holder-img-wrap {
+      position: relative;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .phool-holder-img-wrap img {
+      max-height: 220px;
+      width: auto;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .phool-holder-img-wrap img.is-missing { display: none; }
+
+    .phool-holder-placeholder {
+      display: none;
+      width: 120px;
+      height: 180px;
+      margin: 0 auto;
+    }
+
+    .phool-holder-placeholder--kraft {
+      display: none;
+      width: 100px;
+      height: 150px;
+      background: linear-gradient(160deg, #b8894a 0%, #8b6914 100%);
+      clip-path: polygon(18% 0, 82% 0, 100% 100%, 0 100%);
+      border-radius: 4px 4px 10px 10px;
+      box-shadow: inset 0 -20px 0 rgba(107, 76, 59, 0.15);
+    }
+
+    .phool-holder-img-wrap.show-kraft-placeholder .phool-holder-placeholder--kraft {
+      display: block;
+    }
+
+    .phool-holder-placeholder--wicker {
+      display: none;
+      width: 140px;
+      height: 90px;
+      background: #c9a87c;
+      border-radius: 45% 45% 38% 38%;
+      border: 4px solid #a0856c;
+      box-shadow: inset 0 -12px 0 rgba(107, 76, 59, 0.12), 0 6px 14px rgba(92, 61, 46, 0.18);
+    }
+
+    .phool-holder-img-wrap.show-wicker-placeholder .phool-holder-placeholder--wicker {
+      display: block;
+    }
+
+    .phool-holder-name {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      color: var(--brown);
+      margin-bottom: 0.35rem;
+    }
+
+    .phool-holder-desc {
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-style: italic;
+      color: rgba(107, 76, 59, 0.68);
+      line-height: 1.45;
+    }
+
+    .btn-phool-continue {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 999px;
+      background: var(--brown);
+      color: var(--cream);
+      cursor: pointer;
+      transition: transform 0.2s, filter 0.2s;
+      margin-top: 0.25rem;
+    }
+
+    .btn-phool-continue:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+
+    .btn-phool-continue[hidden] { display: none !important; }
+
+    .phool-step2-top {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .phool-step2-top .phool-step-title {
+      flex: 1 1 220px;
+      text-align: left;
+      max-width: none;
+    }
+
+    .phool-holder-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.35rem 0.65rem 0.35rem 0.45rem;
+      background: #fdf6ec;
+      border: 1px solid #d4a96a;
+      border-radius: 999px;
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      color: var(--brown);
+      flex-shrink: 0;
+    }
+
+    .phool-holder-badge img {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+    }
+
+    .phool-holder-badge img.is-missing { display: none; }
+
+    .phool-holder-badge-placeholder {
+      width: 30px;
+      height: 30px;
+      border-radius: 4px;
+      background: rgba(212, 169, 106, 0.35);
+      flex-shrink: 0;
+    }
+
+    .phool-step2-body {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr min(280px, 100%);
+      gap: 1.25rem;
+      align-items: start;
+    }
+
+    .phool-flower-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.85rem;
+    }
+
+    .phool-flower-card {
+      position: relative;
+      background: #fdf6ec;
+      border: 2px solid #d4a96a;
+      border-radius: 16px;
+      padding: 0.75rem 0.5rem 0.85rem;
+      box-shadow: 0 6px 18px rgba(107, 76, 59, 0.1);
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+      text-align: center;
+    }
+
+    .phool-flower-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 22px rgba(107, 76, 59, 0.14);
+    }
+
+    .phool-flower-card.selected {
+      border-color: #ff9eb5;
+      background: #fff0f3;
+      box-shadow: 0 0 0 2px rgba(255, 158, 181, 0.3), 0 10px 22px rgba(255, 158, 181, 0.15);
+    }
+
+    .phool-flower-check {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.55rem;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #ff9eb5;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .phool-flower-card.selected .phool-flower-check { display: flex; }
+
+    .phool-flower-img-wrap {
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.45rem;
+    }
+
+    .phool-flower-img-wrap img {
+      width: 120px;
+      height: 160px;
+      object-fit: contain;
+    }
+
+    .phool-flower-img-wrap img.is-missing { display: none; }
+
+    .phool-flower-emoji {
+      display: none;
+      font-size: 3.5rem;
+      line-height: 1;
+    }
+
+    .phool-flower-img-wrap.show-emoji .phool-flower-emoji { display: block; }
+
+    .phool-flower-name {
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--brown);
+      font-variant: small-caps;
+      line-height: 1.2;
+    }
+
+    .phool-flower-category {
+      font-family: var(--font-body);
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #a0856c;
+      margin-top: 0.2rem;
+    }
+
+    .phool-preview-panel {
+      background: #fdf6ec;
+      border-radius: 16px;
+      padding: 1rem 0.85rem 1.1rem;
+      box-shadow: 0 8px 24px rgba(107, 76, 59, 0.12);
+      border: 1px solid rgba(212, 169, 106, 0.45);
+      position: sticky;
+      top: 0.5rem;
+    }
+
+    .phool-preview-title {
+      font-family: var(--font-hand);
+      font-size: 1.35rem;
+      color: var(--brown);
+      text-align: center;
+      margin-bottom: 0.65rem;
+    }
+
+    .phool-preview-stage {
+      position: relative;
+      min-height: 240px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .phool-preview-bouquet {
+      position: relative;
+      width: min(210px, 88%);
+      height: 210px;
+      margin: 0 auto;
+    }
+
+    .phool-preview-flowers {
+      position: absolute;
+      left: 50%;
+      bottom: 52px;
+      transform: translateX(-50%);
+      width: 168px;
+      height: 118px;
+      z-index: 1;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    .phool-preview-flowers--kraft {
+      bottom: 68px;
+      height: 100px;
+    }
+
+    .phool-preview-flower {
+      position: absolute;
+      transform: translateX(-50%);
+      height: 52px;
+      width: auto;
+      max-width: 48px;
+      object-fit: contain;
+      transform-origin: bottom center;
+      animation: phoolFlowerPop 0.2s ease forwards;
+    }
+
+    .phool-preview-flower-emoji {
+      position: absolute;
+      transform: translateX(-50%);
+      font-size: 1.85rem;
+      line-height: 1;
+      transform-origin: bottom center;
+      animation: phoolFlowerPop 0.2s ease forwards;
+    }
+
+    @keyframes phoolFlowerPop {
+      from { transform: translateX(-50%) scale(0) rotate(var(--phool-rot, 0deg)); opacity: 0; }
+      to { transform: translateX(-50%) scale(1) rotate(var(--phool-rot, 0deg)); opacity: 1; }
+    }
+
+    .phool-preview-holder {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 150px;
+      width: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .phool-preview-holder img {
+      max-height: 180px;
+      width: auto;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .phool-preview-holder img.is-missing { display: none; }
+
+    .phool-preview-placeholder {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      font-family: var(--font-hand);
+      font-size: 1.1rem;
+      color: rgba(107, 76, 59, 0.45);
+      text-align: center;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .phool-preview-placeholder[hidden] { display: none !important; }
+
+    .phool-flower-count {
+      font-family: var(--font-hand);
+      font-size: 1.15rem;
+      color: #ff9eb5;
+      text-align: center;
+      margin-top: 0.75rem;
+    }
+
+    .phool-reaction {
+      margin-top: 0.65rem;
+      padding: 0.65rem 0.85rem;
+      background: rgba(255, 240, 243, 0.95);
+      border: 1px solid rgba(255, 158, 181, 0.45);
+      border-radius: 12px;
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-style: italic;
+      color: var(--brown);
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .phool-reaction[hidden] { display: none !important; }
+
+    .phool-reaction--greedy {
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .btn-phool-change-holder {
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--brown);
+      background: rgba(253, 246, 236, 0.92);
+      border: 1px solid #d4a96a;
+      border-radius: 999px;
+      padding: 0.55rem 1.1rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      align-self: flex-start;
+    }
+
+    .btn-phool-change-holder:hover {
+      background: #fff0f3;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 768px) {
+      .phool-holder-grid {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .phool-holder-card {
+        width: 100%;
+        max-width: 340px;
+      }
+
+      .phool-step2-body {
+        grid-template-columns: 1fr;
+      }
+
+      .phool-flower-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .phool-preview-panel {
+        position: static;
+      }
+
+      .phool-step2-top .phool-step-title {
+        text-align: center;
+      }
+
+      .phool-step2-top {
+        justify-content: center;
+      }
+
+      .phool-holder-badge {
+        margin: 0 auto;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .phool-preview-flower,
+      .phool-preview-flower-emoji { animation: none; opacity: 1; transform: translateX(-50%) rotate(var(--phool-rot, 0deg)); }
+    }
+
     #retro-arcade .section-bg { background-image: none; background-color: #0d0d18; }
     #retro-arcade .section-bg::after { background: rgba(10, 8, 20, 0.45); }
 
@@ -722,6 +1513,76 @@
 
     .arcade-game[hidden] { display: none !important; }
     .arcade-hub[hidden] { display: none !important; }
+
+    .wordle-game-wrap {
+      position: relative;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 2rem;
+    }
+
+    .wordle-hint-wrap {
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 5;
+    }
+
+    .wordle-hint-btn {
+      font-family: var(--font-arcade);
+      font-size: 0.38rem;
+      color: #ffe566;
+      background: rgba(20, 15, 0, 0.55);
+      border: 1px solid #ffe566;
+      border-radius: 6px;
+      padding: 0.4rem 0.6rem;
+      cursor: pointer;
+      box-shadow: 0 0 8px rgba(255, 229, 102, 0.45);
+      animation: hintPulse 2.2s ease-in-out infinite;
+      line-height: 1;
+    }
+
+    .wordle-hint-btn:hover:not(:disabled) {
+      filter: brightness(1.12);
+    }
+
+    .wordle-hint-btn:disabled,
+    .wordle-hint-btn.used {
+      color: #888;
+      border-color: #555;
+      background: rgba(30, 30, 30, 0.6);
+      box-shadow: none;
+      animation: none;
+      cursor: default;
+      opacity: 0.75;
+    }
+
+    @keyframes hintPulse {
+      0%, 100% { box-shadow: 0 0 6px rgba(255, 229, 102, 0.35); }
+      50% { box-shadow: 0 0 16px rgba(255, 229, 102, 0.85); }
+    }
+
+    .wordle-hint-card {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      min-width: 140px;
+      padding: 0.65rem 0.9rem;
+      background: #fdf6ec;
+      border: 1px solid rgba(212, 196, 160, 0.75);
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+      font-family: var(--font-hand);
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--brown);
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .wordle-hint-card[hidden] { display: none !important; }
 
     .wordle-board {
       display: flex;
@@ -1058,6 +1919,7 @@
       .btn-cabinet-play { animation: none; }
       .wordle-tile.revealing { animation: none; }
       .wordle-tile.win-flash { animation: none; }
+      .wordle-hint-btn { animation: none; }
     }
 
     #photo-studio .section-bg { background-color: var(--cream); }
@@ -2816,6 +3678,78 @@
       background: var(--soft-pink);
     }
 
+    .cat-memory-card--boss {
+      max-width: 480px;
+      border-color: #ff9eb5;
+      box-shadow:
+        0 0 0 3px rgba(255, 158, 181, 0.45),
+        0 16px 48px rgba(255, 158, 181, 0.28);
+      animation: catBossCardGlow 2.2s ease-in-out infinite;
+    }
+
+    @keyframes catBossCardGlow {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(255, 158, 181, 0.35), 0 16px 48px rgba(255, 158, 181, 0.22); }
+      50% { box-shadow: 0 0 0 5px rgba(255, 158, 181, 0.65), 0 20px 52px rgba(255, 158, 181, 0.35); }
+    }
+
+    .cat-memory-bubu {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 0.75rem;
+    }
+
+    .cat-memory-bubu[hidden],
+    .cat-memory-badge[hidden] {
+      display: none !important;
+    }
+
+    .cat-memory-card--boss .memory-emoji {
+      display: none;
+    }
+
+    .cat-memory-badge {
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--brown);
+      margin-top: 0.85rem;
+      line-height: 1.35;
+    }
+
+    .hidden-cat.cat-boss-locked {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(0);
+    }
+
+    .hidden-cat.cat-boss-ready {
+      animation: catBossGlowPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes catBossGlowPulse {
+      0%, 100% {
+        filter: drop-shadow(0 0 4px rgba(255, 158, 181, 0.45));
+        outline: 2px solid rgba(255, 158, 181, 0.45);
+      }
+      50% {
+        filter: drop-shadow(0 0 14px rgba(255, 158, 181, 0.95));
+        outline: 2px solid rgba(255, 158, 181, 0.95);
+      }
+    }
+
+    .hidden-cat.cat-boss-reveal {
+      animation: catBossReveal 0.7s ease forwards;
+    }
+
+    @keyframes catBossReveal {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0); visibility: visible; }
+      70% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); visibility: visible; }
+      100% { opacity: 1; transform: translate(-50%, -50%) scale(1); visibility: visible; }
+    }
+
     .cat-master-achievement {
       position: fixed;
       inset: 0;
@@ -3028,7 +3962,6 @@
       .bubu-intro-img { width: 90px; height: 90px; }
       .signboard { padding: 1rem; }
       .signboard-inner { padding: 1rem; }
-      .notice-board-inner { padding: 1.5rem 1.25rem; }
       .bubu-companion { bottom: 0.75rem; right: 0.75rem; }
       .companion-avatar { width: 48px; height: 48px; }
       .companion-bubble { max-width: 160px; font-size: 0.72rem; }
@@ -3038,22 +3971,19 @@
         padding: 0;
       }
 
+      .town-map-scene {
+        gap: 0.65rem;
+        padding: 0.25rem 0.65rem 5.5rem;
+      }
+
       .map-header {
-        padding: 0.85rem 0.75rem 0.5rem;
+        position: sticky;
+        padding: 0.85rem 0.75rem 0.65rem;
       }
 
       .location-card {
-        width: clamp(108px, 28vw, 132px);
         padding: 0.6rem 0.5rem 0.7rem;
       }
-
-      .loc-final       { left: 50%;  top: 18%; }
-      .loc-bakery      { left: 22%;  top: 26%; }
-      .loc-observatory { left: 78%;  top: 26%; }
-      .loc-cat-alley   { left: 20%;  top: 52%; }
-      .loc-train       { left: 80%;  top: 52%; }
-      .loc-arcade      { left: 36%;  top: 80%; }
-      .loc-photo       { left: 64%;  top: 80%; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -3064,6 +3994,9 @@
       .shooting-star { animation: none; opacity: 0; }
       .sky-star img { animation: none; transform: scale(1); }
       .finale-shooting-star { animation: none; opacity: 0; }
+      .cat-memory-card--boss { animation: none; }
+      .hidden-cat.cat-boss-ready { animation: none; }
+      .hidden-cat.cat-boss-reveal { animation: none; opacity: 1; transform: translate(-50%, -50%) scale(1); visibility: visible; }
     }
   </style>
 </head>
@@ -3130,27 +4063,50 @@
     </div>
   </section>
 
-  <!-- ═══ SECTION 2: PASSWORD SCREEN ═══ -->
+  <!-- ═══ SECTION 2: PASSWORD SCREEN (Lockscreen) ═══ -->
   <section id="password-screen" class="section" data-section="password">
     <div class="section-bg"></div>
+    <div class="petals-container" id="lockscreen-petals" aria-hidden="true"></div>
+    <div class="lockscreen-flash" id="lockscreen-flash" aria-hidden="true"></div>
+
     <div class="section-content">
-      <div class="notice-board" id="notice-board">
-        <div class="notice-board-inner">
-          <h2>🔒 Access Restricted</h2>
-          <p class="hint">Hint: The day our story officially became official 🥺</p>
-          <form class="password-form" id="password-form">
-            <input
-              class="password-input"
-              id="password-input"
-              type="text"
-              inputmode="numeric"
-              placeholder="enter the date..."
-              autocomplete="off"
-              aria-label="Password"
-            >
-            <button class="btn-submit" type="submit">Submit</button>
-          </form>
-          <p class="password-message" id="password-message" aria-live="polite"></p>
+      <div class="lockscreen-content" id="lockscreen-content">
+        <div class="lockscreen-top">
+          <div class="lockscreen-polaroid">
+            <div class="lockscreen-polaroid-photo-wrap" id="lockscreen-photo-wrap">
+              <img
+                id="lockscreen-photo"
+                src="assets/photos/motuni.jpg"
+                data-fallback="assets/photos/us-lockscreen.jpg"
+                alt=""
+              >
+              <div class="lockscreen-photo-placeholder" aria-hidden="true">🤍</div>
+            </div>
+            <p class="lockscreen-polaroid-caption">20.01.2025 🤍</p>
+          </div>
+
+          <div class="lockscreen-clock" id="lockscreen-time" aria-live="off">00:00</div>
+          <p class="lockscreen-date" id="lockscreen-date">Monday, 1 January</p>
+          <div class="lockscreen-lock-icon" id="lockscreen-lock" aria-hidden="true">🔒</div>
+          <p class="lockscreen-unlock-hint">enter our date to unlock 🤍</p>
+        </div>
+
+        <div class="lockscreen-bottom">
+          <div class="lockscreen-dots" id="lockscreen-dots" aria-hidden="true"></div>
+          <p class="lockscreen-pin-msg" id="lockscreen-pin-msg" aria-live="polite"></p>
+          <div class="lockscreen-keypad" id="lockscreen-keypad">
+            <button type="button" class="lockscreen-key" data-key="1">1</button>
+            <button type="button" class="lockscreen-key" data-key="2">2</button>
+            <button type="button" class="lockscreen-key" data-key="3">3</button>
+            <button type="button" class="lockscreen-key" data-key="4">4</button>
+            <button type="button" class="lockscreen-key" data-key="5">5</button>
+            <button type="button" class="lockscreen-key" data-key="6">6</button>
+            <button type="button" class="lockscreen-key" data-key="7">7</button>
+            <button type="button" class="lockscreen-key" data-key="8">8</button>
+            <button type="button" class="lockscreen-key lockscreen-key-action" data-key="delete" aria-label="Delete">⌫</button>
+            <button type="button" class="lockscreen-key" data-key="0">0</button>
+            <button type="button" class="lockscreen-key lockscreen-key-action" data-key="submit" aria-label="Submit">✓</button>
+          </div>
         </div>
       </div>
     </div>
@@ -3187,6 +4143,11 @@
           <span class="location-icon">🐱</span>
           <span class="location-name">Cat Alley</span>
           <span class="location-teaser">find the hidden ones</span>
+        </button>
+        <button type="button" class="location-card loc-phool" data-target="phool-fool">
+          <span class="location-icon">💐</span>
+          <span class="location-name">Phool for my Fool</span>
+          <span class="location-teaser">pick your favourites, fatty</span>
         </button>
         <button type="button" class="location-card loc-train" data-target="train-station">
           <span class="location-icon">🚂</span>
@@ -3291,17 +4252,75 @@
         <button type="button" class="hidden-cat cat-pos-9 peek" data-cat="9" aria-label="Find cat 9">
           <img src="assets/icons/cat-9.png" alt="" width="48" height="48">
         </button>
-        <button type="button" class="hidden-cat cat-pos-10 peek" data-cat="10" aria-label="Find cat 10">
+        <button type="button" class="hidden-cat cat-pos-10 cat-boss-locked" data-cat="10" aria-label="Find cat 10">
           <img src="assets/icons/cat-10.png" alt="" width="40" height="40">
         </button>
       </div>
     </div>
   </section>
 
+  <section id="phool-fool" class="section" data-section="phool-fool">
+    <div class="section-bg">
+      <img class="section-bg-img" src="assets/backgrounds/bg-flowers.jpg" alt="">
+    </div>
+    <div class="section-content">
+      <div class="phool-layout" id="phool-layout">
+        <img
+          class="phool-bubu-header"
+          src="assets/gifs/bubu-kiss-sweet-dudu-7uf4hstqt631qmlp.gif"
+          alt=""
+          width="120"
+          height="120"
+        >
+
+        <header class="phool-header">
+          <h2>Phool for my Fool 💐</h2>
+          <p class="phool-subtitle">pick your flowers and your holder — she's taking notes 🤍</p>
+        </header>
+
+        <div class="phool-step phool-step-1" id="phool-step-1">
+          <h3 class="phool-step-title">first things first — how should they be wrapped?</h3>
+          <div class="phool-holder-grid" id="phool-holder-grid"></div>
+          <button type="button" class="btn-phool-continue" id="phool-continue-btn" hidden>
+            continue to flowers →
+          </button>
+        </div>
+
+        <div class="phool-step phool-step-2" id="phool-step-2" hidden>
+          <div class="phool-step2-top">
+            <h3 class="phool-step-title">now pick what goes inside 🌸</h3>
+            <div class="phool-holder-badge" id="phool-holder-badge"></div>
+          </div>
+
+          <div class="phool-step2-body">
+            <div class="phool-flower-grid" id="phool-flower-grid"></div>
+
+            <aside class="phool-preview-panel">
+              <h4 class="phool-preview-title">your bouquet 🌸</h4>
+              <div class="phool-preview-stage" id="phool-preview-stage">
+                <p class="phool-preview-placeholder" id="phool-preview-placeholder">add some flowers 🌿</p>
+                <div class="phool-preview-bouquet" id="phool-preview-bouquet">
+                  <div class="phool-preview-flowers" id="phool-preview-flowers"></div>
+                  <div class="phool-preview-holder" id="phool-preview-holder"></div>
+                </div>
+              </div>
+              <p class="phool-flower-count" id="phool-flower-count">0 flowers chosen 🌸</p>
+              <div class="phool-reaction" id="phool-reaction" hidden></div>
+            </aside>
+          </div>
+
+          <button type="button" class="btn-phool-change-holder" id="phool-change-holder">← Change holder</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <div class="cat-memory-overlay" id="cat-memory-overlay" role="dialog" aria-modal="true" aria-labelledby="cat-memory-text">
     <div class="cat-memory-card" id="cat-memory-card">
-      <div class="memory-emoji">🐱</div>
+      <div class="memory-emoji" id="cat-memory-emoji">🐱</div>
+      <img class="cat-memory-bubu" id="cat-memory-bubu" src="assets/gifs/bubu-happy.gif" alt="" width="120" height="120" hidden>
       <p id="cat-memory-text"></p>
+      <p class="cat-memory-badge" id="cat-memory-badge" hidden>🏆 Master Cat Finder — she trained you well</p>
       <button type="button" class="btn-memory-close" id="cat-memory-close">okay 🐾</button>
     </div>
   </div>
@@ -3347,7 +4366,13 @@
         </div>
 
         <div class="arcade-game arcade-game-wordle" id="arcade-game-wordle" hidden>
-          <div class="wordle-board" id="wordle-board"></div>
+          <div class="wordle-game-wrap">
+            <div class="wordle-hint-wrap" id="wordle-hint-wrap">
+              <button type="button" class="wordle-hint-btn" id="wordle-hint-btn">💡 Hint</button>
+              <div class="wordle-hint-card" id="wordle-hint-card" hidden>u can shake it 🍑</div>
+            </div>
+            <div class="wordle-board" id="wordle-board"></div>
+          </div>
           <p class="wordle-roast" id="wordle-roast" aria-live="polite"></p>
           <p class="wordle-result" id="wordle-result" hidden></p>
           <div class="wordle-keyboard" id="wordle-keyboard"></div>
@@ -3660,13 +4685,13 @@
   <script>
     /* ── State ── */
     const CORRECT_PASSWORDS = ['20012025', '20/01/2025', '20-01-2025'];
-    const WRONG_RESPONSES = [
-      'nope ☠️',
+    const LOCKSCREEN_WRONG = [
+      'nope 🔒',
       "that's concerning motu",
       'i KNEW i was the memory keeper in this relationship',
       'bestie… really?',
       "she's going to hear about this",
-      'are you even trying'
+      'are you even trying 💀'
     ];
     const COMPANION_DIALOGUE = [
       'motu is dehydrated again i can sense it',
@@ -3675,6 +4700,12 @@
       'stinky detected in this area',
       'she wore the red kurti u know. ur favourite.',
       'drink water challenge: can motu do it'
+    ];
+    const PHOOL_COMPANION_DIALOGUE = [
+      "he's building a bouquet 🌸 she's going to cry",
+      'pick the roses motu. trust.',
+      'she likes ALL of them fyi. just saying.',
+      "noted. she's screenshotting this somehow."
     ];
 
     let currentSection = 'town-gate';
@@ -3759,6 +4790,10 @@
         stopFinalLetter();
       }
 
+      if (currentSection === 'password-screen') {
+        stopLockscreen();
+      }
+
       const current = document.getElementById(currentSection);
       const duration = reducedMotion ? 0 : 0.4;
       currentSection = id;
@@ -3810,7 +4845,7 @@
 
     function updateBackButton() {
       const hubSections = ['town-gate', 'town-map'];
-      const noBackSections = ['final-letter'];
+      const noBackSections = ['final-letter', 'password-screen'];
       if (hubSections.includes(currentSection) || noBackSections.includes(currentSection)) {
         btnBack.classList.remove('visible');
       } else {
@@ -3820,13 +4855,7 @@
 
     function initSection(id) {
       if (id === 'password-screen') {
-        gsap.from('#notice-board', {
-          y: 30,
-          opacity: 0,
-          duration: reducedMotion ? 0 : 0.6,
-          ease: 'back.out(1.4)'
-        });
-        document.getElementById('password-input').focus();
+        initLockscreen();
       }
 
       if (id === 'town-map') {
@@ -3843,6 +4872,10 @@
 
       if (id === 'cat-alley') {
         initCatAlley();
+      }
+
+      if (id === 'phool-fool') {
+        initPhoolFool();
       }
 
       if (id === 'retro-arcade') {
@@ -3903,8 +4936,10 @@
     });
 
     /* ── Town Gate animations ── */
-    function createPetals() {
-      const container = document.getElementById('petals-container');
+    function createPetals(containerId = 'petals-container') {
+      const container = document.getElementById(containerId);
+      if (!container || container.dataset.petalsReady === '1') return;
+      container.dataset.petalsReady = '1';
       const count = reducedMotion ? 8 : 18;
 
       for (let i = 0; i < count; i++) {
@@ -4193,34 +5228,52 @@
 
     /* ── Cat Alley ── */
     const CAT_MEMORIES = [
-      'remember when we decided food is basically our entire personality',
-      'you and your booty. i said what i said.',
-      'the medical health centre area at night. that was our spot.',
-      '26th jan 2025. our first date. you wore your brown sweatshirt.',
-      'i wore my red kurti. your favourite. i knew what i was doing.',
-      'before sunrise. first movie. chaos pick but somehow perfect.',
-      'blue hoodie + green quarterzip. the day it became official.',
-      'motu. fatty. babby. billi. stinky. all mine.',
-      "you're literally so oppressed (lovingly)",
-      'finding all 10 means you actually pay attention. impressed.'
+      "motu. she thinks about you literally all the time. don't tell her i said that. 🐱",
+      'i heard you two would plan entire days around food. respect. you are my people. 🍜',
+      '26th january. she wore red. you wore brown. neither of you said you were nervous. we cats noticed. 🧡',
+      'before sunrise was the first movie?? chaotic choice. weirdly perfect. very you two. 🎬',
+      'the medical health centre area at night. that spot belongs to you two now. we don\'t make the rules. 🌙',
+      '20th january 2025. remember it. cherish it. or she will quiz you. i\'ve seen it happen. 🔮',
+      'you are literally so babby and she loves you for it. this is not up for debate. 🌸',
+      "lovingly oppressed. that's you. and you LOVE it. don't even try to deny it to me. 😤",
+      'i took a nap in your spot once. very good energy there. she picked well. 💤',
+      'you found all of us. she trained you well. now go tell her you love her. right now. go. 🐾'
     ];
 
+    const REGULAR_CAT_IDS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     const foundCats = new Set();
-    let catMasterShown = false;
+
+    function hasFoundAllRegularCats() {
+      return REGULAR_CAT_IDS.every((id) => foundCats.has(id));
+    }
+
+    function getCatBossEl() {
+      return document.querySelector('.hidden-cat[data-cat="10"]');
+    }
 
     function updateCatProgress() {
       document.getElementById('cat-alley-progress').textContent =
         `Cats found: ${foundCats.size} / 10 🐱`;
     }
 
+    function resetCatMemoryCard() {
+      const card = document.getElementById('cat-memory-card');
+      card.classList.remove('cat-memory-card--boss');
+      document.getElementById('cat-memory-emoji').hidden = false;
+      document.getElementById('cat-memory-bubu').hidden = true;
+      document.getElementById('cat-memory-badge').hidden = true;
+    }
+
     function showCatMemory(catId) {
       const overlay = document.getElementById('cat-memory-overlay');
       const card = document.getElementById('cat-memory-card');
+
+      resetCatMemoryCard();
       document.getElementById('cat-memory-text').textContent = CAT_MEMORIES[catId - 1];
       overlay.classList.add('open');
 
       if (reducedMotion) {
-        gsap.set(card, { scale: 1 });
+        gsap.set(card, { scale: 1, opacity: 1 });
         return;
       }
 
@@ -4232,58 +5285,115 @@
       });
     }
 
-    function closeCatMemory() {
-      document.getElementById('cat-memory-overlay').classList.remove('open');
+    function showCatBossMemory() {
+      const overlay = document.getElementById('cat-memory-overlay');
+      const card = document.getElementById('cat-memory-card');
+
+      resetCatMemoryCard();
+      card.classList.add('cat-memory-card--boss');
+      document.getElementById('cat-memory-emoji').hidden = true;
+      document.getElementById('cat-memory-bubu').hidden = false;
+      document.getElementById('cat-memory-text').textContent = CAT_MEMORIES[9];
+      document.getElementById('cat-memory-badge').hidden = false;
+      overlay.classList.add('open');
+
+      playSound('confetti');
+      burstConfetti(90);
+
+      if (reducedMotion) {
+        gsap.set(card, { scale: 1, opacity: 1 });
+        return;
+      }
+
+      gsap.fromTo(card, { scale: 0.85, opacity: 0 }, {
+        scale: 1,
+        opacity: 1,
+        duration: 0.55,
+        ease: 'back.out(1.6)'
+      });
     }
 
-    function showCatMasterAchievement() {
-      if (catMasterShown) return;
-      catMasterShown = true;
+    function closeCatMemory() {
+      document.getElementById('cat-memory-overlay').classList.remove('open');
+      resetCatMemoryCard();
+    }
 
-      const overlay = document.getElementById('cat-master-achievement');
-      overlay.classList.add('open');
-      playSound('confetti');
+    function revealCatBoss() {
+      const boss = getCatBossEl();
+      if (!boss || boss.classList.contains('found') || !hasFoundAllRegularCats()) return;
 
-      if (!reducedMotion) {
-        gsap.fromTo('#cat-master-inner', { scale: 0.8, opacity: 0 }, {
-          scale: 1,
-          opacity: 1,
-          duration: 0.6,
-          ease: 'back.out(1.6)'
-        });
-        burstConfetti(60);
+      boss.hidden = false;
+      boss.classList.remove('cat-boss-locked');
+      boss.classList.add('cat-boss-ready', 'peek');
+
+      if (reducedMotion) {
+        boss.style.opacity = '1';
+        boss.style.visibility = 'visible';
+        boss.style.transform = 'translate(-50%, -50%) scale(1)';
+        return;
+      }
+
+      boss.classList.add('cat-boss-reveal');
+      setTimeout(() => boss.classList.remove('cat-boss-reveal'), 700);
+    }
+
+    function syncCatBossVisibility() {
+      const boss = getCatBossEl();
+      if (!boss) return;
+
+      if (foundCats.has(10)) {
+        boss.classList.add('found');
+        boss.classList.add('cat-boss-locked');
+        boss.classList.remove('cat-boss-ready', 'peek');
+        return;
+      }
+
+      if (hasFoundAllRegularCats()) {
+        boss.classList.remove('cat-boss-locked');
+        if (!boss.classList.contains('cat-boss-ready')) {
+          boss.classList.add('cat-boss-ready', 'peek');
+        }
+      } else {
+        boss.classList.add('cat-boss-locked');
+        boss.classList.remove('cat-boss-ready', 'peek');
       }
     }
 
     function onCatClick(catBtn) {
       const catId = Number(catBtn.dataset.cat);
       if (foundCats.has(catId)) return;
+      if (catId === 10 && !hasFoundAllRegularCats()) return;
 
       foundCats.add(catId);
       playSound('cat-meow');
-      catBtn.classList.remove('peek');
+      catBtn.classList.remove('peek', 'cat-boss-ready');
       catBtn.classList.add('found');
 
       updateCatProgress();
-      showCatMemory(catId);
 
-      if (foundCats.size === 10) {
-        setTimeout(showCatMasterAchievement, reducedMotion ? 400 : 1200);
+      if (catId === 10) {
+        showCatBossMemory();
+      } else {
+        showCatMemory(catId);
+        if (hasFoundAllRegularCats()) {
+          setTimeout(revealCatBoss, reducedMotion ? 120 : 450);
+        }
       }
     }
 
     function initCatAlley() {
       updateCatProgress();
+      syncCatBossVisibility();
 
-      /* Clear any GSAP inline styles that break positioning */
       gsap.utils.toArray('.hidden-cat').forEach((cat) => {
         gsap.set(cat, { clearProps: 'all' });
         const id = Number(cat.dataset.cat);
         if (foundCats.has(id)) {
           cat.classList.add('found');
-          cat.classList.remove('peek');
-        } else {
+          cat.classList.remove('peek', 'cat-boss-ready');
+        } else if (id !== 10) {
           cat.classList.remove('found');
+          if (!cat.classList.contains('peek')) cat.classList.add('peek');
         }
       });
 
@@ -4295,7 +5405,7 @@
       });
 
       if (!reducedMotion) {
-        gsap.fromTo('.hidden-cat:not(.found)', { opacity: 0 }, {
+        gsap.fromTo('.hidden-cat:not(.found):not(.cat-boss-locked)', { opacity: 0 }, {
           opacity: 1,
           duration: 0.35,
           stagger: 0.04,
@@ -4306,7 +5416,7 @@
 
     document.getElementById('cat-alley-scene').addEventListener('click', (e) => {
       const catBtn = e.target.closest('.hidden-cat');
-      if (!catBtn || catBtn.classList.contains('found')) return;
+      if (!catBtn || catBtn.classList.contains('found') || catBtn.classList.contains('cat-boss-locked')) return;
       onCatClick(catBtn);
     });
 
@@ -4826,17 +5936,412 @@
       if (e.target.id === 'observatory-finale-overlay') closeObservatoryFinale();
     });
 
-    /* ── Retro Arcade ── */
-    const WORDLE_WORDS = ['FATTY', 'BILLI', 'MOTKU', 'BABBY', 'STINK'];
-    const WORDLE_ROASTS = [
-      'motu. think harder.',
-      "she's watching you struggle.",
-      'this is embarrassing bestie',
-      'you literally say this word daily how',
-      'ok but are you even trying',
-      '💀'
+    /* ── Phool for my Fool ── */
+    const PHOOL_HOLDERS = [
+      {
+        id: 'kraft',
+        name: 'Classic Kraft Wrap',
+        desc: "timeless. she'd wrap it herself with extra ribbon.",
+        img: 'assets/holders/kraft-wrap.png',
+        imgFallback: 'assets/holders/kraft-wrap.jpg',
+        placeholderClass: 'show-kraft-placeholder'
+      },
+      {
+        id: 'wicker',
+        name: 'Wicker Basket',
+        desc: 'cozy. cottage core. very you.',
+        img: 'assets/holders/wicker-basket.png',
+        imgFallback: 'assets/holders/wicker-basket.jpg',
+        placeholderClass: 'show-wicker-placeholder'
+      }
     ];
-    const WORDLE_DEFINITION = 'a loving nickname 🤍';
+
+    const PHOOL_FLOWERS = [
+      { id: 'cherry-blossom', name: 'Cherry Blossom', img: 'assets/flowers/cherry-blossom.png', emoji: '🌸' },
+      { id: 'tulip', name: 'Tulip', img: 'assets/flowers/tulip.png', emoji: '🌷' },
+      { id: 'rose', name: 'Rose', img: 'assets/flowers/rose.png', emoji: '🌹' },
+      { id: 'sunflower', name: 'Sunflower', img: 'assets/flowers/sunflower.png', emoji: '🌻' },
+      { id: 'lavender', name: 'Lavender', img: 'assets/flowers/lavender.png', emoji: '💜' },
+      { id: 'daisy', name: 'Daisy', img: 'assets/flowers/daisy.png', emoji: '🌼' },
+      { id: 'hibiscus', name: 'Hibiscus', img: 'assets/flowers/hibiscus.png', emoji: '🌺' },
+      { id: 'lotus', name: 'Lotus', img: 'assets/flowers/lotus.png', imgFallback: 'assets/flowers/lotus-flower.png', emoji: '🪷' },
+      { id: 'babys-breath', name: "Baby's Breath", img: 'assets/flowers/babys-breath.png', emoji: '✨' },
+      { id: 'eucalyptus', name: 'Eucalyptus', img: 'assets/flowers/eucalyptus.png', emoji: '🌿' },
+      { id: 'wheat', name: 'Wheat Stems', img: 'assets/flowers/wheat.png', emoji: '🌾' },
+      { id: 'forget-me-not', name: 'Forget-me-not', img: 'assets/flowers/forget-me-not.png', emoji: '💙' }
+    ];
+
+    let phoolSelectedHolder = null;
+    let phoolSelectedFlowers = new Set();
+    let phoolFlowerRotations = new Map();
+    let phoolNotedShown = false;
+    let phoolAllCelebrated = false;
+    let phoolCompanionIndex = 0;
+    let phoolGridsBuilt = false;
+    let phoolHasEnteredStep2 = false;
+
+    function bindPhoolImage(img, fallbackSrc, onFail) {
+      if (fallbackSrc) {
+        img.dataset.fallback = fallbackSrc;
+      }
+
+      const markLoaded = () => {
+        if (img.naturalWidth > 0) onFail(false);
+      };
+
+      const markFailed = () => {
+        if (img.dataset.fallbackTried !== '1' && img.dataset.fallback) {
+          img.dataset.fallbackTried = '1';
+          img.src = img.dataset.fallback;
+          return;
+        }
+        img.classList.add('is-missing');
+        img.removeAttribute('src');
+        onFail(true);
+      };
+
+      img.addEventListener('load', markLoaded);
+      img.addEventListener('error', markFailed);
+
+      if (img.complete) {
+        if (img.naturalWidth > 0) markLoaded();
+        else markFailed();
+      }
+    }
+
+    function buildPhoolGrids() {
+      if (phoolGridsBuilt) return;
+      phoolGridsBuilt = true;
+
+      const holderGrid = document.getElementById('phool-holder-grid');
+      holderGrid.innerHTML = '';
+
+      PHOOL_HOLDERS.forEach((holder) => {
+        const card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'phool-holder-card';
+        card.dataset.holderId = holder.id;
+
+        const check = document.createElement('span');
+        check.className = 'phool-holder-check';
+        check.textContent = '✓';
+        check.setAttribute('aria-hidden', 'true');
+
+        const imgWrap = document.createElement('div');
+        imgWrap.className = 'phool-holder-img-wrap';
+
+        const img = document.createElement('img');
+        img.src = holder.img;
+        img.alt = '';
+        bindPhoolImage(img, holder.imgFallback, (failed) => {
+          if (failed) imgWrap.classList.add(holder.placeholderClass);
+        });
+
+        const kraftPh = document.createElement('div');
+        kraftPh.className = 'phool-holder-placeholder phool-holder-placeholder--kraft';
+        kraftPh.setAttribute('aria-hidden', 'true');
+
+        const wickerPh = document.createElement('div');
+        wickerPh.className = 'phool-holder-placeholder phool-holder-placeholder--wicker';
+        wickerPh.setAttribute('aria-hidden', 'true');
+
+        imgWrap.append(img, kraftPh, wickerPh);
+
+        const name = document.createElement('p');
+        name.className = 'phool-holder-name';
+        name.textContent = holder.name;
+
+        const desc = document.createElement('p');
+        desc.className = 'phool-holder-desc';
+        desc.textContent = holder.desc;
+
+        card.append(check, imgWrap, name, desc);
+        card.addEventListener('click', () => selectPhoolHolder(holder.id));
+        holderGrid.appendChild(card);
+      });
+
+      const flowerGrid = document.getElementById('phool-flower-grid');
+      flowerGrid.innerHTML = '';
+
+      PHOOL_FLOWERS.forEach((flower) => {
+        const card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'phool-flower-card';
+        card.dataset.flowerId = flower.id;
+
+        const check = document.createElement('span');
+        check.className = 'phool-flower-check';
+        check.textContent = '✓';
+        check.setAttribute('aria-hidden', 'true');
+
+        const imgWrap = document.createElement('div');
+        imgWrap.className = 'phool-flower-img-wrap';
+
+        const img = document.createElement('img');
+        img.src = flower.img;
+        img.alt = '';
+        bindPhoolImage(img, flower.imgFallback || '', (failed) => {
+          if (failed) imgWrap.classList.add('show-emoji');
+        });
+
+        const emoji = document.createElement('span');
+        emoji.className = 'phool-flower-emoji';
+        emoji.textContent = flower.emoji;
+        emoji.setAttribute('aria-hidden', 'true');
+
+        imgWrap.append(img, emoji);
+
+        const fname = document.createElement('p');
+        fname.className = 'phool-flower-name';
+        fname.textContent = flower.name;
+
+        const cat = document.createElement('p');
+        cat.className = 'phool-flower-category';
+        cat.textContent = 'BLOOM';
+
+        card.append(check, imgWrap, fname, cat);
+        card.addEventListener('click', () => togglePhoolFlower(flower.id));
+        flowerGrid.appendChild(card);
+      });
+
+      document.getElementById('phool-continue-btn').addEventListener('click', showPhoolStep2);
+      document.getElementById('phool-change-holder').addEventListener('click', showPhoolStep1);
+    }
+
+    function getPhoolHolder(id) {
+      return PHOOL_HOLDERS.find((h) => h.id === id);
+    }
+
+    function getPhoolFlower(id) {
+      return PHOOL_FLOWERS.find((f) => f.id === id);
+    }
+
+    function selectPhoolHolder(id) {
+      phoolSelectedHolder = id;
+
+      document.querySelectorAll('.phool-holder-card').forEach((card) => {
+        card.classList.toggle('selected', card.dataset.holderId === id);
+      });
+
+      document.getElementById('phool-continue-btn').hidden = false;
+    }
+
+    function showPhoolStep1() {
+      document.getElementById('phool-step-1').hidden = false;
+      document.getElementById('phool-step-2').hidden = true;
+    }
+
+    function showPhoolStep2() {
+      if (!phoolSelectedHolder) return;
+
+      phoolHasEnteredStep2 = true;
+      document.getElementById('phool-step-1').hidden = true;
+      document.getElementById('phool-step-2').hidden = false;
+      updatePhoolHolderBadge();
+      updatePhoolPreview();
+      updatePhoolReactions();
+    }
+
+    function updatePhoolHolderBadge() {
+      const holder = getPhoolHolder(phoolSelectedHolder);
+      const badge = document.getElementById('phool-holder-badge');
+      if (!holder) {
+        badge.innerHTML = '';
+        return;
+      }
+
+      badge.innerHTML = '';
+
+      const img = document.createElement('img');
+      img.src = holder.img;
+      img.alt = '';
+      bindPhoolImage(img, holder.imgFallback, (failed) => {
+        if (failed) {
+          const ph = document.createElement('span');
+          ph.className = 'phool-holder-badge-placeholder';
+          badge.insertBefore(ph, badge.firstChild);
+        }
+      });
+
+      const label = document.createElement('span');
+      label.textContent = holder.name;
+
+      badge.append(img, label);
+    }
+
+    function togglePhoolFlower(id) {
+      const card = document.querySelector(`.phool-flower-card[data-flower-id="${id}"]`);
+      if (!card) return;
+
+      if (phoolSelectedFlowers.has(id)) {
+        phoolSelectedFlowers.delete(id);
+        phoolFlowerRotations.delete(id);
+        card.classList.remove('selected');
+      } else {
+        phoolSelectedFlowers.add(id);
+        phoolFlowerRotations.set(id, gsap.utils.random(-15, 15));
+        card.classList.add('selected');
+      }
+
+      updatePhoolPreview();
+      updatePhoolReactions();
+    }
+
+    function getPhoolPreviewPosition(index, total, holderId) {
+      const center = (total - 1) / 2;
+      const offset = index - center;
+      const spread = total > 6 ? 13 : 16;
+      const left = 50 + offset * spread;
+      const baseBottom = holderId === 'kraft' ? 8 : 14;
+      const bottom = baseBottom + Math.abs(offset) * 5 + (index % 2) * 4;
+      return { left, bottom };
+    }
+
+    function updatePhoolPreview() {
+      const holder = getPhoolHolder(phoolSelectedHolder);
+      const holderEl = document.getElementById('phool-preview-holder');
+      const flowersEl = document.getElementById('phool-preview-flowers');
+      const placeholder = document.getElementById('phool-preview-placeholder');
+      const countEl = document.getElementById('phool-flower-count');
+      const selected = [...phoolSelectedFlowers];
+
+      flowersEl.classList.toggle('phool-preview-flowers--kraft', phoolSelectedHolder === 'kraft');
+      flowersEl.classList.toggle('phool-preview-flowers--wicker', phoolSelectedHolder === 'wicker');
+
+      countEl.textContent = `${selected.length} flower${selected.length === 1 ? '' : 's'} chosen 🌸`;
+      placeholder.hidden = selected.length > 0;
+
+      holderEl.innerHTML = '';
+      if (holder) {
+        const img = document.createElement('img');
+        img.src = holder.img;
+        img.alt = '';
+        bindPhoolImage(img, holder.imgFallback, (failed) => {
+          if (failed) {
+            const ph = document.createElement('div');
+            ph.className = `phool-holder-placeholder phool-holder-placeholder--${holder.id === 'kraft' ? 'kraft' : 'wicker'}`;
+            holderEl.appendChild(ph);
+          }
+        });
+        holderEl.appendChild(img);
+      }
+
+      flowersEl.innerHTML = '';
+      selected.forEach((id, index) => {
+        const flower = getPhoolFlower(id);
+        if (!flower) return;
+
+        const pos = getPhoolPreviewPosition(index, selected.length, phoolSelectedHolder);
+        const rot = phoolFlowerRotations.get(id) ?? 0;
+        const card = document.querySelector(`.phool-flower-card[data-flower-id="${id}"]`);
+        const useEmoji = card?.querySelector('.phool-flower-img-wrap').classList.contains('show-emoji');
+
+        if (useEmoji) {
+          const span = document.createElement('span');
+          span.className = 'phool-preview-flower-emoji';
+          span.textContent = flower.emoji;
+          span.style.left = `${pos.left}%`;
+          span.style.bottom = `${pos.bottom}px`;
+          span.style.setProperty('--phool-rot', `${rot}deg`);
+          span.style.zIndex = String(index + 1);
+          flowersEl.appendChild(span);
+        } else {
+          const img = document.createElement('img');
+          img.className = 'phool-preview-flower';
+          img.src = flower.img;
+          img.alt = '';
+          img.style.left = `${pos.left}%`;
+          img.style.bottom = `${pos.bottom}px`;
+          img.style.setProperty('--phool-rot', `${rot}deg`);
+          img.style.zIndex = String(index + 1);
+          flowersEl.appendChild(img);
+        }
+      });
+    }
+
+    function updatePhoolReactions() {
+      const reaction = document.getElementById('phool-reaction');
+      const count = phoolSelectedFlowers.size;
+
+      if (count === 0) {
+        reaction.hidden = true;
+        reaction.textContent = '';
+        return;
+      }
+
+      if (count >= 12 && !phoolAllCelebrated) {
+        phoolAllCelebrated = true;
+        playSound('confetti');
+        burstConfetti(100);
+        reaction.hidden = false;
+        reaction.className = 'phool-reaction phool-reaction--greedy';
+        reaction.textContent = "greedy. she loves it. your bouquet is going to be massive. 🌸";
+        return;
+      }
+
+      if (count >= 3) {
+        reaction.hidden = false;
+        reaction.className = 'phool-reaction';
+        reaction.textContent = "noted. she's saving this for later. 🤍";
+        phoolNotedShown = true;
+        return;
+      }
+
+      if (count === 1) {
+        reaction.hidden = false;
+        reaction.className = 'phool-reaction';
+        reaction.textContent = 'ooh good start 🌸';
+        return;
+      }
+
+      if (count === 2) {
+        reaction.hidden = true;
+        reaction.textContent = '';
+      }
+    }
+
+    function syncPhoolUI() {
+      document.querySelectorAll('.phool-holder-card').forEach((card) => {
+        card.classList.toggle('selected', card.dataset.holderId === phoolSelectedHolder);
+      });
+
+      document.getElementById('phool-continue-btn').hidden = !phoolSelectedHolder;
+
+      document.querySelectorAll('.phool-flower-card').forEach((card) => {
+        card.classList.toggle('selected', phoolSelectedFlowers.has(card.dataset.flowerId));
+      });
+
+      if (phoolSelectedHolder && (phoolHasEnteredStep2 || phoolSelectedFlowers.size > 0)) {
+        showPhoolStep2();
+      } else {
+        showPhoolStep1();
+      }
+    }
+
+    function initPhoolFool() {
+      buildPhoolGrids();
+      syncPhoolUI();
+
+      if (!reducedMotion) {
+        gsap.from('.phool-bubu-header', { y: -12, opacity: 0, duration: 0.5, ease: 'back.out(1.4)' });
+        gsap.from('.phool-header', { y: 10, opacity: 0, duration: 0.45, delay: 0.08 });
+      }
+
+      const bubble = document.getElementById('companion-bubble');
+      bubble.textContent = PHOOL_COMPANION_DIALOGUE[phoolCompanionIndex];
+      phoolCompanionIndex = (phoolCompanionIndex + 1) % PHOOL_COMPANION_DIALOGUE.length;
+    }
+
+    /* ── Retro Arcade ── */
+    const WORDLE_ANSWER = 'BOOTY';
+    const WORDLE_ROASTS = [
+      "motu. it's 5 letters. think body parts.",
+      'she gave you a hint for a reason.',
+      "it's literally your favourite subject.",
+      'B... O... think harder.',
+      "she's going to be so disappointed.",
+      "💀 one more chance. don't waste it."
+    ];
 
     const TRIVIA_DATA = [
       {
@@ -4890,6 +6395,8 @@
     let wordleOver = false;
     let wordleRoastIdx = 0;
     let wordleKeyHandler = null;
+    let wordleHintUsed = false;
+    let wordleHintDismissHandler = null;
 
     let triviaIndex = 0;
     let triviaScore = 0;
@@ -4988,8 +6495,49 @@
       });
     }
 
+    function hideWordleHintCard() {
+      document.getElementById('wordle-hint-card').hidden = true;
+      if (wordleHintDismissHandler) {
+        document.removeEventListener('click', wordleHintDismissHandler);
+        wordleHintDismissHandler = null;
+      }
+    }
+
+    function resetWordleHint() {
+      wordleHintUsed = false;
+      const btn = document.getElementById('wordle-hint-btn');
+      btn.disabled = false;
+      btn.textContent = '💡 Hint';
+      btn.classList.remove('used');
+      hideWordleHintCard();
+    }
+
+    function showWordleHintCard() {
+      document.getElementById('wordle-hint-card').hidden = false;
+      setTimeout(() => {
+        wordleHintDismissHandler = (e) => {
+          const wrap = document.getElementById('wordle-hint-wrap');
+          if (wrap.contains(e.target)) return;
+          hideWordleHintCard();
+        };
+        document.addEventListener('click', wordleHintDismissHandler);
+      }, 0);
+    }
+
+    function onWordleHintClick(e) {
+      e.stopPropagation();
+      if (wordleHintUsed || wordleOver) return;
+
+      wordleHintUsed = true;
+      const btn = document.getElementById('wordle-hint-btn');
+      btn.disabled = true;
+      btn.textContent = '💡 used';
+      btn.classList.add('used');
+      showWordleHintCard();
+    }
+
     function resetWordle(silent = false) {
-      wordleAnswer = WORDLE_WORDS[Math.floor(Math.random() * WORDLE_WORDS.length)];
+      wordleAnswer = WORDLE_ANSWER;
       wordleRow = 0;
       wordleCol = 0;
       wordleOver = false;
@@ -4998,6 +6546,7 @@
 
       buildWordleBoard();
       buildWordleKeyboard();
+      resetWordleHint();
 
       document.getElementById('wordle-roast').textContent = '';
       const result = document.getElementById('wordle-result');
@@ -5109,7 +6658,7 @@
         document.getElementById('wordle-roast').textContent = '';
         const result = document.getElementById('wordle-result');
         result.hidden = false;
-        result.innerHTML = "🏆 certified. she's impressed. kind of.<br><strong>" + wordleAnswer + " — " + WORDLE_DEFINITION + '</strong>';
+        result.innerHTML = "🏆 you got BOOTY. she's not surprised.<br>it's your favourite topic.";
         document.getElementById('wordle-actions').hidden = false;
         document.getElementById('wordle-keyboard').hidden = true;
         detachWordleKeys();
@@ -5130,7 +6679,7 @@
         document.getElementById('wordle-roast').textContent = '';
         const result = document.getElementById('wordle-result');
         result.hidden = false;
-        result.textContent = '💀 the word was ' + wordleAnswer + ". she's not mad. just disappointed. study your nicknames motu.";
+        result.textContent = '💀 it was BOOTY motu. BOOTY. how did you not get this.';
         document.getElementById('wordle-actions').hidden = false;
         document.getElementById('wordle-keyboard').hidden = true;
         detachWordleKeys();
@@ -5288,6 +6837,7 @@
       }
     }
 
+    document.getElementById('wordle-hint-btn').addEventListener('click', onWordleHintClick);
     document.getElementById('cabinet-wordle').addEventListener('click', () => showArcadeGame('wordle'));
     document.getElementById('cabinet-trivia').addEventListener('click', () => showArcadeGame('trivia'));
     document.getElementById('wordle-switch-bottom').addEventListener('click', () => showArcadeGame('trivia'));
@@ -5670,54 +7220,233 @@ happy 20 to my most perfect and beautiful boy. i love you forever. we r stuck in
       document.getElementById('finale-mute-btn').textContent = finaleMuted ? '🔇' : '🔊';
     });
 
-    /* ── Password ── */
+    /* ── Lockscreen (Password) ── */
+    const LOCKSCREEN_PIN_LENGTH = 8;
+    let lockscreenPin = '';
+    let lockscreenWrongAttempts = 0;
+    let lockscreenClockTimer = null;
+    let lockscreenPinMsgTimer = null;
+    let lockscreenUnlocking = false;
+
+    function initLockscreenPhoto() {
+      const img = document.getElementById('lockscreen-photo');
+      const wrap = document.getElementById('lockscreen-photo-wrap');
+      if (!img || !wrap) return;
+
+      const showPlaceholder = () => wrap.classList.add('show-placeholder');
+
+      img.addEventListener('load', () => {
+        if (img.naturalWidth > 0) wrap.classList.remove('show-placeholder');
+      });
+
+      img.addEventListener('error', () => {
+        if (img.dataset.fallbackTried !== '1' && img.dataset.fallback) {
+          img.dataset.fallbackTried = '1';
+          img.src = img.dataset.fallback;
+          return;
+        }
+        img.classList.add('is-missing');
+        img.removeAttribute('src');
+        showPlaceholder();
+      });
+
+      if (img.complete) {
+        if (img.naturalWidth > 0) wrap.classList.remove('show-placeholder');
+        else img.dispatchEvent(new Event('error'));
+      }
+    }
+
+    function buildLockscreenDots() {
+      const dotsEl = document.getElementById('lockscreen-dots');
+      if (dotsEl.children.length) return;
+      for (let i = 0; i < LOCKSCREEN_PIN_LENGTH; i++) {
+        const dot = document.createElement('span');
+        dot.className = 'lockscreen-dot';
+        dotsEl.appendChild(dot);
+      }
+    }
+
+    function updateLockscreenDots() {
+      document.querySelectorAll('#lockscreen-dots .lockscreen-dot').forEach((dot, i) => {
+        dot.classList.toggle('filled', i < lockscreenPin.length);
+      });
+    }
+
+    function updateLockscreenClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const mins = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('lockscreen-time').textContent = `${hours}:${mins}`;
+
+      const dateStr = now.toLocaleDateString('en-GB', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long'
+      });
+      document.getElementById('lockscreen-date').textContent = dateStr;
+    }
+
+    function startLockscreenClock() {
+      updateLockscreenClock();
+      if (lockscreenClockTimer) clearInterval(lockscreenClockTimer);
+      lockscreenClockTimer = setInterval(updateLockscreenClock, 1000);
+    }
+
+    function showLockscreenPinMsg(text) {
+      const msg = document.getElementById('lockscreen-pin-msg');
+      if (lockscreenPinMsgTimer) clearTimeout(lockscreenPinMsgTimer);
+      msg.textContent = text;
+      msg.classList.add('visible');
+      lockscreenPinMsgTimer = setTimeout(() => {
+        msg.classList.remove('visible');
+      }, 2000);
+    }
+
+    function resetLockscreenPin() {
+      lockscreenPin = '';
+      const dots = document.getElementById('lockscreen-dots');
+      dots.classList.remove('error', 'success', 'shake');
+      updateLockscreenDots();
+    }
+
+    function handleLockscreenWrongPin() {
+      lockscreenWrongAttempts++;
+      let message;
+      if (lockscreenWrongAttempts <= 5) {
+        message = LOCKSCREEN_WRONG[lockscreenWrongAttempts - 1];
+      } else {
+        message = LOCKSCREEN_WRONG[Math.floor(Math.random() * LOCKSCREEN_WRONG.length)];
+      }
+
+      const dots = document.getElementById('lockscreen-dots');
+      dots.classList.add('error', 'shake');
+      showLockscreenPinMsg(message);
+
+      setTimeout(() => {
+        dots.classList.remove('shake');
+        resetLockscreenPin();
+        setTimeout(() => dots.classList.remove('error'), 180);
+      }, 450);
+    }
+
+    function handleLockscreenCorrectPin() {
+      if (lockscreenUnlocking) return;
+      lockscreenUnlocking = true;
+
+      const dots = document.getElementById('lockscreen-dots');
+      dots.classList.remove('error');
+      dots.classList.add('success');
+
+      const lock = document.getElementById('lockscreen-lock');
+      lock.textContent = '🔓';
+      lock.classList.add('unlocked');
+
+      playSound('sparkle');
+
+      const flash = document.getElementById('lockscreen-flash');
+      flash.classList.remove('play');
+      void flash.offsetWidth;
+      flash.classList.add('play');
+
+      setTimeout(() => {
+        goToSection('town-map');
+        lockscreenUnlocking = false;
+      }, reducedMotion ? 200 : 800);
+    }
+
+    function submitLockscreenPin() {
+      if (lockscreenUnlocking || !lockscreenPin.length) return;
+
+      if (isCorrectPassword(lockscreenPin)) {
+        handleLockscreenCorrectPin();
+      } else {
+        handleLockscreenWrongPin();
+      }
+    }
+
+    function pressLockscreenKey(key) {
+      if (lockscreenUnlocking) return;
+
+      if (key === 'delete') {
+        lockscreenPin = lockscreenPin.slice(0, -1);
+        updateLockscreenDots();
+        return;
+      }
+
+      if (key === 'submit') {
+        submitLockscreenPin();
+        return;
+      }
+
+      if (!/^\d$/.test(key) || lockscreenPin.length >= LOCKSCREEN_PIN_LENGTH) return;
+      lockscreenPin += key;
+      updateLockscreenDots();
+    }
+
+    function initLockscreen() {
+      document.body.classList.add('lockscreen-active');
+      buildLockscreenDots();
+      resetLockscreenPin();
+      lockscreenWrongAttempts = 0;
+      lockscreenUnlocking = false;
+
+      const lock = document.getElementById('lockscreen-lock');
+      lock.textContent = '🔒';
+      lock.classList.remove('unlocked');
+
+      document.getElementById('lockscreen-pin-msg').classList.remove('visible');
+      document.getElementById('lockscreen-pin-msg').textContent = '';
+      document.getElementById('lockscreen-flash').classList.remove('play');
+
+      createPetals('lockscreen-petals');
+      startLockscreenClock();
+
+      if (!reducedMotion) {
+        gsap.from('.lockscreen-polaroid', { y: 18, opacity: 0, duration: 0.55, ease: 'back.out(1.4)' });
+        gsap.from('.lockscreen-clock', { opacity: 0, duration: 0.45, delay: 0.12 });
+        gsap.from('.lockscreen-bottom', { y: 20, opacity: 0, duration: 0.5, delay: 0.18, ease: 'power2.out' });
+      }
+    }
+
+    function stopLockscreen() {
+      document.body.classList.remove('lockscreen-active');
+      if (lockscreenClockTimer) {
+        clearInterval(lockscreenClockTimer);
+        lockscreenClockTimer = null;
+      }
+      if (lockscreenPinMsgTimer) {
+        clearTimeout(lockscreenPinMsgTimer);
+        lockscreenPinMsgTimer = null;
+      }
+    }
+
+    document.getElementById('lockscreen-keypad').addEventListener('click', (e) => {
+      const btn = e.target.closest('.lockscreen-key');
+      if (!btn) return;
+      btn.classList.add('pressed');
+      setTimeout(() => btn.classList.remove('pressed'), 120);
+      pressLockscreenKey(btn.dataset.key);
+    });
+
+    initLockscreenPhoto();
+    buildLockscreenDots();
+
+    /* ── Password helpers ── */
     function normalizePassword(val) {
       return val.trim().replace(/\s/g, '');
     }
 
     function isCorrectPassword(val) {
       const normalized = normalizePassword(val);
-      return CORRECT_PASSWORDS.some(p => normalized === p);
+      return CORRECT_PASSWORDS.some((p) => normalized === p);
     }
-
-    document.getElementById('password-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const input = document.getElementById('password-input');
-      const msg = document.getElementById('password-message');
-      const val = input.value;
-
-      if (isCorrectPassword(val)) {
-        msg.textContent = 'welcome home motu 🤍';
-        msg.className = 'password-message success';
-        playSound('confetti');
-        burstConfetti();
-        setTimeout(() => goToSection('town-map'), reducedMotion ? 200 : 1200);
-      } else {
-        msg.className = 'password-message';
-        msg.textContent = WRONG_RESPONSES[Math.floor(Math.random() * WRONG_RESPONSES.length)];
-        gsap.fromTo('#notice-board', { x: 0 }, {
-          x: 8,
-          duration: 0.08,
-          repeat: 5,
-          yoyo: true,
-          ease: 'power1.inOut',
-          onComplete: () => gsap.set('#notice-board', { x: 0 })
-        });
-        input.value = '';
-        input.focus();
-      }
-    });
 
     document.getElementById('btn-enter').addEventListener('click', () => {
       goToSection('password-screen');
     });
 
     btnBack.addEventListener('click', () => {
-      if (currentSection === 'password-screen') {
-        goToSection('town-gate');
-      } else {
-        goToSection('town-map');
-      }
+      goToSection('town-map');
     });
 
     /* ── Confetti ── */
@@ -5754,8 +7483,15 @@ happy 20 to my most perfect and beautiful boy. i love you forever. we r stuck in
     /* ── Bubu Companion ── */
     function updateCompanionDialogue() {
       const bubble = document.getElementById('companion-bubble');
-      bubble.textContent = COMPANION_DIALOGUE[companionIndex];
-      companionIndex = (companionIndex + 1) % COMPANION_DIALOGUE.length;
+      const lines = currentSection === 'phool-fool' ? PHOOL_COMPANION_DIALOGUE : COMPANION_DIALOGUE;
+
+      if (currentSection === 'phool-fool') {
+        bubble.textContent = lines[phoolCompanionIndex];
+        phoolCompanionIndex = (phoolCompanionIndex + 1) % lines.length;
+      } else {
+        bubble.textContent = lines[companionIndex];
+        companionIndex = (companionIndex + 1) % lines.length;
+      }
 
       if (reducedMotion) {
         bubble.style.opacity = 1;
@@ -5849,6 +7585,7 @@ happy 20 to my most perfect and beautiful boy. i love you forever. we r stuck in
     gsap.defaults({ ease: 'power2.out' });
 
     document.querySelectorAll('img').forEach((img) => {
+      if (img.id === 'lockscreen-photo') return;
       img.addEventListener('error', () => {
         img.removeAttribute('src');
         img.classList.add('is-missing');
@@ -5858,6 +7595,7 @@ happy 20 to my most perfect and beautiful boy. i love you forever. we r stuck in
     });
 
     initTownGate();
+    buildPhoolGrids();
     updateCompanionDialogue();
     setInterval(updateCompanionDialogue, 30000);
     updateBackButton();
